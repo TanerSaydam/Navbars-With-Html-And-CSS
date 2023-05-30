@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive With HTML and CSS</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins';font-size: 22px;
+        }
+
+        body{
+            min-height: 100vh;
+            background: #eef5fe;
+        }
+
+        .flex{
+            display: flex;
+            align-items: center;
+
+        }
+
+        .nav_imgage{
+            display: flex;
+            min-width: 55px;
+            justify-content: center;
+        }
+
+        .nav_image img{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .sidebar{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 270px;
+            background: #fff;
+            padding: 15px 10px;
+            box-shadow: 0 0 2ğx sgrba(0,0,0,0.1);;
+            transition: all .4s ease;
+        }
+
+        .sidebar.close{
+            width: calc(55px + 20px);
+        }
+
+        .logo_items{
+            gap:5px;
+        }
+
+        .logo_name{
+           font-size: 22px; 
+           color: #333;
+           font-weight: 500px;
+           transition: all .3s ease;
+        }
+
+        .sidebar.close .logo_name,
+        .sidebar.close #lock-icon,
+        .sidebar.close #sidebar-close{
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #lock-icon, #sidebar-close{
+            padding: 10px;            
+            color: #4070f4;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        #sidebar-close{
+            display: none;
+            color: #333;
+        }
+
+        .menu_container{
+           margin-top: 40px; 
+           overflow-y: auto;           
+           height: calc(100% - 82px);
+        }
+
+        .menu_container::-webkit-scrollbar{
+            display: none;
+        }
+        
+        .menu_title{
+            position: relative;
+            height: 50px;
+            width: 55px;
+        }
+
+        .menu_title .title{
+         margin-left: 15px;
+         transition:  all .3s ease;
+        }
+
+        .sidebar.close .title{
+            opacity: 0;            
+        }
+
+        .menu_title .line{
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            height: 3px;
+            width: 20px;
+            border-radius: 25px;
+            background: #aaa;
+        }
+
+        .menu_title .line{
+            opacity: 0;
+        }
+
+        .sidebar.close .line{
+            opacity: 1;
+        }
+
+        .item{
+            list-style: none;
+        }
+
+        .link{
+            text-decoration: none;            
+            border-radius: 8px;
+            margin-bottom: 8px;
+            color: #707070;
+        }
+
+        .link:hover{
+            background-color: #4070f4;
+            color: #fff;
+        }
+
+        .link span{
+            white-space: nowrap;
+        }
+
+        .link i{
+            height: 50px;
+            min-width: 55px;
+            display: flex;
+            font-size: 22px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }    
+        
+        .sidebar_profile{
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 2px solid rgba(0,0,0,0.1);
+            gap: 15px;
+        }
+
+        .sidebar_profile .name{
+            font-size: 18px;
+            color: #333;
+        }
+
+        .sidebar_profile .email{
+            font-size: 15px;
+            color: #333;
+        }
+
+        .navbar{
+            max-width: 500px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 60%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 0 0 8px 8px;
+            justify-content: space-between;
+        }
+
+        #sidebar-open{
+            font-size: 30px;
+            color: #333;
+            cursor: pointer;
+            margin-right: 20px;
+            display: none;            
+        }
+
+        .search_box{
+            height: 46px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid #aaa;
+            outline: none;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .navbar img{
+            height: 50px;
+            width: 50px;
+            margin-left: 20px;
+        }
+
+        @media screen and (max-width:1100px) {
+            .navbar{
+                left: 65%;
+            }
+        }
+
+        
+        @media screen and (max-width:800px) {
+            .sidebar{
+                left: 0;
+                z-index: 1000;
+            }
+
+            .sidebar.close{
+                left: -100%;                
+            }
+
+            #sidebar-close{
+                display: block;
+            }
+
+            #lock-icon{
+                display: none;
+            }
+
+            #sidebar-open{
+                display: block;
+            }
+
+            .navbar{
+                left: 0;
+                max-width: 100%;
+                transform: translateX(0%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar locked">
+        <div class="logo_items flex">
+            <span class="nav_image">
+                <img src="https://img.freepik.com/free-vector/bird-colorful-gradient-design-vector_343694-2506.jpg" alt="logo_img">
+            </span>
+            <span class="logo_name">
+                NavbarThema
+            </span>
+            <i class="bx bx-lock-alt" id="lock-icon" title="Unlock Sidebar"></i>
+            <i class="bx bx-x" id="sidebar-close"></i>
+        </div>
+
+        <div class="menu_container">
+            <div class="menu_items">
+                <ul class="menu_item">
+                    <div class="menu_title flex">
+                        <span class="title">Dashboard</span>
+                        <span class="line"></span>
+                    </div>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-home-alt"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-grid-alt"></i>
+                            <span>All Projects</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu_item">
+                    <div class="menu_title flex">
+                        <span class="title">Editor</span>
+                        <span class="line"></span>
+                    </div>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bxs-magic-wand"></i>
+                            <span>Magic Build</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-folder"></i>
+                            <span>New Project</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-cloud-upload"></i>
+                            <span>Upload New</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu_item">
+                    <div class="menu_title flex">
+                        <span class="title">Setting</span>
+                        <span class="line"></span>
+                    </div>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-flag"></i>
+                            <span>Notice Board</span>
+                        </a>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-award"></i>
+                            <span>Award</span>
+                        </a>
+                    </li>                    
+                    <li class="item">
+                        <a href="#" class="link flex">
+                            <i class="bx bx-cog"></i>
+                            <span>Setting</span>
+                        </a>
+                    </li>                    
+                </ul>
+            </div>
+
+            <div class="sidebar_profile flex">
+                <span class="nav_image">
+                    <img src="https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg" alt="logo_img">
+                </span>
+                <div class="data_text">
+                    <span class="name">
+                        Taner Saydam
+                    </span>
+                    <span class="email">
+                        tanersaydam@gmail.com
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar flex">
+        <i class="bx bx-menu" id="sidebar-open"></i>
+        <input type="text" placeholder="Search..." class="search_box">
+        <span class="nav_image">
+            <img src="https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg" alt="logo_img">
+        </span>
+    </nav>
+
+    <script>
+        const sidebar = document.querySelector(".sidebar");
+        const sidebarOpenBtn = document.querySelector("#sidebar-open");
+        const sidebarCloseBtn = document.querySelector("#sidebar-close");
+        const sidebarLockBtn = document.querySelector("#lock-icon");
+
+        const toggleLock = () =>{
+            sidebar.classList.toggle("locked")
+            if(!sidebar.classList.contains("locked")){
+                sidebar.classList.add("hoverable");
+                sidebarLockBtn.classList.replace("bx-lock-alt","bx-lock-open-alt")
+            }else{
+                sidebar.classList.remove("hoverable");
+                sidebarLockBtn.classList.replace("bx-lock-open-alt","bx-lock-alt")
+            }
+        };
+
+        const hideSidebar = () => {
+            if(sidebar.classList.contains("hoverable")){
+                sidebar.classList.add("close")
+            }
+        };
+
+        const showSidebar = () => {
+            if(sidebar.classList.contains("hoverable")){
+                sidebar.classList.remove("close")
+            }
+        };
+
+        const toggleSidebar = () =>{
+            sidebar.classList.toggle("close");
+        }
+
+        if(window.innerWidth < 800){
+            sidebar.classList.add("close");
+            sidebar.classList.remove("locked");
+            sidebar.classList.remove("hoverable");
+        }
+
+        sidebarLockBtn.addEventListener("click", toggleLock);
+        sidebar.addEventListener("mouseleave", hideSidebar);
+        sidebar.addEventListener("mouseenter", showSidebar);
+        sidebarOpenBtn.addEventListener("click", toggleSidebar);
+        sidebarCloseBtn.addEventListener("click", toggleSidebar);
+
+    </script>
+</body>
+</html>
